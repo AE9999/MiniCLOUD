@@ -1,0 +1,46 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="my-cnf-upload">
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
+
+                padding: 10px;
+            }
+        </style>
+
+        <div class="card">
+            <h1>CNF Upload</h1>
+            <form is="iron-form" method="post" enctype="multipart/form-data" action="/cnf">
+                <paper-input label="File to upload:" type="file" name="file"></paper-input>
+
+                <paper-input label="Number of solvers:"
+                             value="2"
+                             type="number"
+                             name="numberOfSolvers">
+                </paper-input>
+
+                <paper-checkbox label="Use Preprocessing"
+                                name="preprocess"
+                                checked="true">
+                    Use Preprocessing
+                </paper-checkbox> <br/>
+
+
+                <paper-button raised>Submit</paper-button>
+            </form>
+        </div>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'my-cnf-upload'
+        });
+    </script>
+</dom-module>

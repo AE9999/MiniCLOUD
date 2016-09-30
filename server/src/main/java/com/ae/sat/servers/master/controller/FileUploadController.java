@@ -69,7 +69,7 @@ public class FileUploadController {
         return "uploadForm";
     }
 
-    @RequestMapping(method = RequestMethod.POST, value = "/")
+    @RequestMapping(method = RequestMethod.POST, value = "/cnf")
     public String handleFileUpload(@RequestParam("numberOfSolvers") final  int numberOfSolvers,
                                    @RequestParam("file") final  MultipartFile file,
                                    @RequestParam("preprocess") final boolean preprocessing,
