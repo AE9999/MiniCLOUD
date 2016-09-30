@@ -1,60 +1,88 @@
-package com.ae.sat.servers.master.service.docker.machine;
+package com.ae.docker.machine;
 
-import com.ae.sat.servers.master.service.docker.MyDockerClientConfigBuilder;
-import com.github.dockerjava.core.DockerClientConfig;
+import com.ae.docker.MyDockerClientConfigBuilder;
+import com.ae.docker.Task;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
+import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.UUID;
+import java.util.concurrent.Future;
 
 /**
- * Created by ae on 27-5-16.
+ * Created by ae on 12-6-16.
  */
-public final class Machine {
+public class Machine {
 
-    private String name;
+    private final Logger log = LoggerFactory.getLogger(getClass());
 
-    private MyDockerClientConfigBuilder config;
+    private String id;
 
-    public Machine(String name, MyDockerClientConfigBuilder config) {
-        this.name = name;
-        this.config  = config;
+    private List<Task> tasks = new ArrayList<>();
+
+    private int inititalCapacity; // Improve this to ask wherefor
+
+    private Future<MyDockerClientConfigBuilder> dockerClientConfigBuilder;
+
+    private LocalDateTime creationTime;
+
+    public Machine(String id, int inititalCapacity) {
+        this.id = id;
+        this.inititalCapacity = inititalCapacity;
+        this.creationTime =  LocalDateTime.now();
     }
 
-    public String getName() {
-        return name;
+    public String getId() {
+        return id;
     }
 
-    public MyDockerClientConfigBuilder getConfig() {
-        return config;
+    protected int doGetCapacity() {
+        return inititalCapacity - tasks.stream().mapToInt(Task::getInpact).sum();
     }
 
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-
-        Machine machine = (Machine) o;
-
-        if (name != null ? !name.equals(machine.name) : machine.name != null) return false;
-        return config != null ? config.equals(machine.config) : machine.config == null;
-
+    public int capacity() {
+        synchronized (tasks) {
+            int capacity = doGetCapacity();
+            return capacity > 0 ? capacity : 0;
+        }
     }
 
-    @Override
-    public int hashCode() {
-        int result = name != null ? name.hashCode() : 0;
-        result = 31 * result + (config != null ? config.hashCode() : 0);
-        return result;
+    public List<Task> getActiveTasks() {
+        synchronized (tasks) {
+            return new ArrayList<>(tasks);
+        }
     }
 
-    @Override
-    public String toString() {
-        return "Machine{" +
-                "name='" + name + '\'' +
-                ", config=" + config +
-                '}';
+    public void addTask(Task task) {
+        synchronized (tasks) {
+            log.info(String.format("Actually assigning %s to %s ..", task, this));
+            int capacity = doGetCapacity();
+            if (capacity - task.getInpact() < 0) {
+                throw new IllegalStateException("Trying to assign task to full machine ..");
+            }
+            tasks.add(task);
+        }
+    }
+
+    public void removeTask(Task task) {
+        synchronized (tasks) {
+            log.info(String.format("Actually removing %s from %s ..", this, task));
+            tasks.remove(task);
+        }
+    }
+
+    public Future<MyDockerClientConfigBuilder> getDockerClientConfigBuilder() {
+        return dockerClientConfigBuilder;
+    }
+
+    public void setDockerClientConfigBuilder(Future<MyDockerClientConfigBuilder> dockerClientConfigBuilder) {
+        this.dockerClientConfigBuilder = dockerClientConfigBuilder;
+    }
+
+    public LocalDateTime getCreationTime() {
+        return creationTime;
     }
 }

@@ -1,25 +1,26 @@
-package com.ae.sat.servers.master.service.docker.local;
+package com.ae.docker.local;
 
-import com.ae.sat.servers.master.service.docker.DockerClientService;
-import com.ae.sat.servers.master.service.docker.DockerClientServiceFactory;
-import com.ae.sat.servers.master.service.docker.MyDockerClientConfigBuilder;
-import com.github.dockerjava.api.DockerClient;
-import com.github.dockerjava.core.DockerClientBuilder;
+
+import com.ae.docker.AbstractDockerClientServiceFactoryImpl;
+import com.ae.docker.MyDockerClientConfigBuilder;
+import com.ae.docker.Task;
 import com.github.dockerjava.core.DockerClientConfig;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Profile;
+import org.springframework.scheduling.annotation.AsyncResult;
 import org.springframework.stereotype.Component;
 
-import java.io.IOException;
+import java.util.concurrent.Future;
 
 /**
  * Created by ae on 7-2-16.
  */
 
+@Profile("localDocker")
 @Component
-public class LocalDockerClientServiceFactory implements DockerClientServiceFactory {
+public class LocalDockerClientServiceFactory extends AbstractDockerClientServiceFactoryImpl {
 
   @Value("${localDockerIP}")
   private String localDockerIP;
@@ -30,51 +31,31 @@ public class LocalDockerClientServiceFactory implements DockerClientServiceFacto
   private final Logger log = LoggerFactory.getLogger(getClass());
 
   @Override
-  public DockerClientService getDockerClientService() throws IOException {
-
+  protected Future<MyDockerClientConfigBuilder> doGetNewDockerService(Task task) {
     String dockerUrl = String.format("tcp://%s:%s", localDockerIP, localDockerPort);
 
     DockerClientConfig.DockerClientConfigBuilder dockerConfig;
     dockerConfig = DockerClientConfig.createDefaultConfigBuilder()
-                                     .withDockerTlsVerify(false)
-                                     .withDockerHost(dockerUrl);
+            .withDockerTlsVerify(false)
+            .withDockerHost(dockerUrl);
 
-    final MyDockerClientConfigBuilder config = new MyDockerClientConfigBuilder(dockerConfig);
-    config.setIp(localDockerIP);
-    config.setPort(localDockerPort);
+    MyDockerClientConfigBuilder myConfig = new MyDockerClientConfigBuilder(dockerConfig);
+    myConfig.setIp(localDockerIP);
+    myConfig.setPort(localDockerPort);
 
-    DockerClientConfig.DockerClientConfigBuilder builder;
-    builder = config.getDockerClientConfigBuilder();
-
-    final DockerClientBuilder dockerClientBuilder;
-    dockerClientBuilder = DockerClientBuilder.getInstance(builder.build());
-
-    return new DockerClientService() {
-
-      @Override
-      public String ip() {
-        return config.getIp();
-      }
-
-      @Override
-      public int port() {
-        return config.getPort();
-      }
-
-      @Override
-      public DockerClient getNewDockerClient() {
-        return dockerClientBuilder.build();
-      }
-
-      @Override
-      public void close() {
-      }
-
-      @Override
-      public String toString() {
-        return String.format(" { ip: %s, port:%s } ", ip(), port());
-      }
-    };
-
+    log.info(String.format("Creating a config for %s ..", task));
+    return new AsyncResult<>(myConfig);
   }
+
+  @Override
+  protected void close(Task task) {
+    log.info(String.format("Closing task %s ..", task));
+    // IGNORE
+  }
+
+  @Override
+  protected int getMaxInpactForSingeMachine() {
+    return Integer.MAX_VALUE;
+  }
+
 }

@@ -1,34 +1,44 @@
-package com.ae.sat.servers.master.service.docker.machine.oceanvm;
+package com.ae.docker.machine.oceanvm;
 
-import com.ae.sat.servers.master.service.docker.machine.Machine;
-import com.ae.sat.servers.master.service.docker.machine.MachineDockerClientServiceFactory;
-import com.ae.sat.servers.master.service.docker.machine.utils.Utils;
-import com.ae.sat.servers.master.service.docker.machine.MachineService;
+import com.ae.docker.machine.DockerMachineService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-
-import java.io.IOException;
-import java.util.concurrent.Future;
+import org.springframework.context.annotation.Profile;
+import org.springframework.stereotype.Component;
 
 /**
  * Created by ae on 13-2-16.
  */
-public class DigitalOceanService extends MachineService {
+@Profile("oceanvmDocker")
+@Component
+public class OceanVMMachineService extends DockerMachineService {
 
   private final Logger log = LoggerFactory.getLogger(getClass());
 
   @Value("${oceanToken}")
   private String oceanToken;
 
-  @Value("${oceanImage}")
-  private String oceanImage;
+//  @Value("${oceanImage}")
+//  private String oceanImage;
 
   @Value("${oceanImageSize}")
   private String oceanImageSize;
 
-  public DigitalOceanService() {
-    setHome(System.getProperty("user.home") + "/.docker/ocean");
+  @Value("${oceanVMMaximumNrOfOrderableMachines}")
+  private int oceanVMMaximumNrOfOrderableMachines;
+
+  @Value("${oceanVMCapacity}")
+  private int oceanVMCapacity;
+
+  @Override
+  public int getMaxInpactForSingeMachine() {
+    return oceanVMCapacity;
+  }
+
+  @Override
+  public int getMaximumNrOfOrderableMachines() {
+    return oceanVMMaximumNrOfOrderableMachines;
   }
 
   @Override
@@ -41,7 +51,6 @@ public class DigitalOceanService extends MachineService {
     command.append(String.format(" --tls-client-key=%s/key.pem", getCertificateDir()));
     command.append(" create");
     command.append(" --driver digitalocean");
-    command.append(String.format(" --digitalocean-image=%s", oceanImage));
     command.append(String.format(" --digitalocean-size=%s", oceanImageSize));
     command.append(String.format(" --digitalocean-access-token=%s", oceanToken));
     command.append(String.format(" %s", machineName));

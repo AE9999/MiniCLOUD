@@ -1,4 +1,4 @@
-package com.ae.sat.servers.master.service.docker;
+package com.ae.docker;
 
 import com.github.dockerjava.core.DockerClientConfig;
 
