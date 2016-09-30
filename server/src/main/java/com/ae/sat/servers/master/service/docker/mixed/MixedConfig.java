@@ -1,12 +1,11 @@
-package com.ae.docker.mixed;
+package com.ae.sat.servers.master.service.docker.mixed;
 
-import com.ae.docker.DockerClientServiceFactory;
-import com.ae.docker.local.LocalDockerClientServiceFactory;
-import com.ae.docker.machine.MachineDockerClientConfigBuilderService;
-import com.ae.docker.machine.MachineDockerClientServiceFactory;
-import com.ae.docker.machine.localvm.LocalVMMachineService;
-import com.ae.docker.machine.oceanvm.OceanVMMachineService;
-import org.apache.commons.lang.NotImplementedException;
+import com.ae.sat.servers.master.service.docker.DockerClientServiceFactory;
+import com.ae.sat.servers.master.service.docker.local.LocalDockerClientServiceFactory;
+import com.ae.sat.servers.master.service.docker.machine.MachineDockerClientConfigBuilderService;
+import com.ae.sat.servers.master.service.docker.machine.MachineDockerClientServiceFactory;
+import com.ae.sat.servers.master.service.docker.machine.localvm.LocalVMMachineService;
+import com.ae.sat.servers.master.service.docker.machine.oceanvm.OceanVMMachineService;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Profile;
@@ -18,11 +17,11 @@ import org.springframework.context.annotation.PropertySource;
 
 @Profile("mixedDocker")
 @PropertySource({
-        "classpath:dockerGeneral.properties",
-        "classpath:dockerLocal.properties",
-        "classpath:dockerLocalvm.properties",
-        "classpath:dockerOceanvm.properties",
-        "classpath:dockerMixed.properties"
+        "classpath:docker/dockerGeneral.properties",
+        "classpath:docker/dockerLocal.properties",
+        "classpath:docker/dockerLocalvm.properties",
+        "classpath:docker/dockerOceanvm.properties",
+        "classpath:docker/dockerMixed.properties"
 })
 public class MixedConfig {
 

@@ -1,4 +1,4 @@
-package com.ae.docker;
+package com.ae.sat.servers.master.service.docker;
 
 import com.github.dockerjava.api.async.ResultCallback;
 import com.github.dockerjava.api.model.Frame;

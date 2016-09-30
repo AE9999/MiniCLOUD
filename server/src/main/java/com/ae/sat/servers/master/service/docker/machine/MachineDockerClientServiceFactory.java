@@ -1,8 +1,9 @@
-package com.ae.docker.machine;
+package com.ae.sat.servers.master.service.docker.machine;
 
-import com.ae.docker.AbstractDockerClientServiceFactoryImpl;
-import com.ae.docker.Task;
-import com.ae.docker.MyDockerClientConfigBuilder;
+
+import com.ae.sat.servers.master.service.docker.AbstractDockerClientServiceFactoryImpl;
+import com.ae.sat.servers.master.service.docker.MyDockerClientConfigBuilder;
+import com.ae.sat.servers.master.service.docker.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,7 +15,8 @@ import org.springframework.stereotype.Component;
 import javax.annotation.PostConstruct;
 import java.io.IOException;
 import java.util.*;
-import java.util.concurrent.*;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 import java.util.stream.IntStream;
 

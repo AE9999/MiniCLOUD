@@ -1,7 +1,7 @@
-package com.ae.docker.machine;
+package com.ae.sat.servers.master.service.docker.machine;
 
-import com.ae.docker.MyDockerClientConfigBuilder;
-import com.ae.sh.ShRunner;
+import com.ae.sat.servers.master.service.docker.MyDockerClientConfigBuilder;
+import com.ae.sat.servers.master.service.sh.ShRunner;
 import com.github.dockerjava.core.DockerClientConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

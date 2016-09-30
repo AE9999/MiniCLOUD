@@ -1,12 +1,10 @@
-package com.ae.docker;
+package com.ae.sat.servers.master.service.docker;
 
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.async.ResultCallback;
-import com.github.dockerjava.api.model.ErrorDetail;
 import com.github.dockerjava.api.model.Image;
 import com.github.dockerjava.api.model.PullResponseItem;
 import com.github.dockerjava.api.model.ResponseItem;
-import com.github.dockerjava.core.command.PullImageResultCallback;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -1,9 +1,8 @@
-package com.ae.docker.machine.localvm;
+package com.ae.sat.servers.master.service.docker.machine.localvm;
 
 
-import com.ae.docker.machine.DockerMachineService;
+import com.ae.sat.servers.master.service.docker.machine.DockerMachineService;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 

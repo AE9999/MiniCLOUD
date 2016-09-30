@@ -1,6 +1,7 @@
-package com.ae.docker.machine;
+package com.ae.sat.servers.master.service.docker.machine;
 
-import com.ae.docker.MyDockerClientConfigBuilder;
+
+import com.ae.sat.servers.master.service.docker.MyDockerClientConfigBuilder;
 
 import java.io.IOException;
 import java.util.concurrent.Future;

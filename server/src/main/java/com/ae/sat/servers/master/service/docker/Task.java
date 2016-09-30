@@ -1,4 +1,4 @@
-package com.ae.docker;
+package com.ae.sat.servers.master.service.docker;
 
 import java.util.UUID;
 

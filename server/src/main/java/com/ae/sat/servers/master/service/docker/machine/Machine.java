@@ -1,15 +1,13 @@
-package com.ae.docker.machine;
+package com.ae.sat.servers.master.service.docker.machine;
 
-import com.ae.docker.MyDockerClientConfigBuilder;
-import com.ae.docker.Task;
+import com.ae.sat.servers.master.service.docker.MyDockerClientConfigBuilder;
+import com.ae.sat.servers.master.service.docker.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import java.time.Instant;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.UUID;
 import java.util.concurrent.Future;
 
 /**

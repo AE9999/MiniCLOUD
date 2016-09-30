@@ -1,6 +1,6 @@
-package com.ae.docker.machine;
+package com.ae.sat.servers.master.service.docker.machine;
 
-import com.ae.sh.ShRunner;
+import com.ae.sat.servers.master.service.sh.ShRunner;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Profile;

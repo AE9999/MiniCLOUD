@@ -5,6 +5,8 @@ import com.ae.sat.servers.master.service.docker.DockerClientService;
 import com.ae.sat.servers.master.service.docker.DockerClientServiceFactory;
 import com.ae.sat.servers.master.service.rabbitmq.RabbitMQService;
 import com.rabbitmq.client.ConnectionFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
@@ -20,6 +22,8 @@ import java.util.concurrent.TimeoutException;
 @Component
 public class SolverManagerService {
 
+    private final Logger log = LoggerFactory.getLogger(getClass());
+
     @Autowired
     private DockerClientServiceFactory dockerServiceFactory;
 
@@ -33,16 +37,20 @@ public class SolverManagerService {
                                           String unitClauseChannelName,
                                           SolverAssignment solverAssignment,
                                           ConnectionFactory connectionFactory)
-                         throws InterruptedException,
-                                ExecutionException,
-                                TimeoutException,
-                                IOException {
+                         throws IOException {
         SolverManager solverManager = new SolverManager();
         solverManager.setInformationChannelName(informationChannelName);
         solverManager.setUnitClauseChannelName(unitClauseChannelName);
         solverManager.setConnectionFactory(connectionFactory);
         solverManager.setSolverAssignment(solverAssignment);
-        solverManager.setDockerClientService(dockerServiceFactory.getDockerClientService());
+        try {
+            solverManager.setDockerClientService(dockerServiceFactory.getDockerClientService(1).get());
+        } catch (InterruptedException |
+                 ExecutionException |
+                 DockerClientServiceFactory.CannotProvideException e) {
+            log.warn("Could not obtain machine", e);
+            throw new IOException(e);
+        }
         solverManager.setDockerMachineTimeoutInMinutes(dockerMachineTimeoutInMinutes);
         solverManager.setWorkerImageName(workerImageName);
         return solverManager;

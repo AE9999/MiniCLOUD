@@ -13,6 +13,7 @@ import com.rabbitmq.client.ConnectionFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Profile;
 import org.springframework.stereotype.Component;
 
 import java.io.IOException;
@@ -23,6 +24,7 @@ import java.util.concurrent.TimeoutException;
  * Created by ae on 27-5-16.
  */
 
+@Profile({"localvmDocker", "oceanvmDocker", "mixedDocker"})
 @Component
 public class DockerMachineRabbitMqService extends RabbitMQService {
 
@@ -39,14 +41,14 @@ public class DockerMachineRabbitMqService extends RabbitMQService {
     private ConnectionFactory createConnectionFactory() {
         try {
             DockerClientService clientService;
-            clientService = dockerClientServiceFactory.getDockerClientService();
+            clientService = dockerClientServiceFactory.getDockerClientService(1).get();
             log.info(String.format("Recieved %s to run my rabbit service on ..",
                     clientService));
             client =  clientService.getNewDockerClient();
 
             ExposedPort tcpRabbit = ExposedPort.tcp(stdRabbitPort);
             Ports portBindings = new Ports();
-            portBindings.bind(tcpRabbit, Ports.binding(rabbitPort));
+            portBindings.bind(tcpRabbit, Ports.Binding.bindPort(rabbitPort));
             log.info("Pulling RabbitMQ, might take a while ..");
             client.pullImageCmd("rabbitmq:3.5.1-management")
                     .exec(new PullImageResultCallback())
@@ -68,7 +70,8 @@ public class DockerMachineRabbitMqService extends RabbitMQService {
             connectionFactory.setPassword(rabbitPassword);
             return connectionFactory;
         } catch (InterruptedException |
-                IOException  e) {
+                ExecutionException |
+                DockerClientServiceFactory.CannotProvideException e) {
             log.error("Could not open RabbitMQ connection", e);
             return null;
         }

@@ -1,8 +1,9 @@
-package com.ae.docker.mixed;
+package com.ae.sat.servers.master.service.docker.mixed;
 
-import com.ae.docker.*;
-import com.ae.docker.local.LocalDockerClientServiceFactory;
-import com.ae.docker.machine.MachineDockerClientServiceFactory;
+import com.ae.sat.servers.master.service.docker.DockerClientService;
+import com.ae.sat.servers.master.service.docker.DockerClientServiceFactory;
+import com.ae.sat.servers.master.service.docker.SafeDockerClient;
+import com.ae.sat.servers.master.service.docker.Task;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

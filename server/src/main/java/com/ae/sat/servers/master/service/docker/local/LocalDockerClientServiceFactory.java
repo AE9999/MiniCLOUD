@@ -1,9 +1,9 @@
-package com.ae.docker.local;
+package com.ae.sat.servers.master.service.docker.local;
 
 
-import com.ae.docker.AbstractDockerClientServiceFactoryImpl;
-import com.ae.docker.MyDockerClientConfigBuilder;
-import com.ae.docker.Task;
+import com.ae.sat.servers.master.service.docker.AbstractDockerClientServiceFactoryImpl;
+import com.ae.sat.servers.master.service.docker.MyDockerClientConfigBuilder;
+import com.ae.sat.servers.master.service.docker.Task;
 import com.github.dockerjava.core.DockerClientConfig;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

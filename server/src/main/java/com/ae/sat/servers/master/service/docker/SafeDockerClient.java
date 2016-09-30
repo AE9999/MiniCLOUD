@@ -1,11 +1,10 @@
-package com.ae.docker;
+package com.ae.sat.servers.master.service.docker;
 
 import com.github.dockerjava.api.DockerClient;
 import com.github.dockerjava.api.command.*;
 import com.github.dockerjava.api.exception.DockerException;
 import com.github.dockerjava.api.model.AuthConfig;
 import com.github.dockerjava.api.model.Identifier;
-import com.github.dockerjava.core.DockerClientImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

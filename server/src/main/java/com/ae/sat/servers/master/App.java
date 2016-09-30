@@ -3,9 +3,6 @@ package com.ae.sat.servers.master;
 import com.ae.sat.servers.master.service.docker.DockerClientServiceFactory;
 import com.ae.sat.servers.master.service.docker.local.LocalDockerClientServiceFactory;
 import com.ae.sat.servers.master.service.docker.machine.MachineDockerClientServiceFactory;
-import com.ae.sat.servers.master.service.docker.machine.oceanvm.DigitalOceanService;
-import com.ae.sat.servers.master.service.docker.machine.localvm.LocalMachineService;
-import com.ae.sat.servers.master.service.docker.machine.MachineService;
 import com.ae.sat.servers.master.service.preprocess.MinisatPreprocessService;
 import com.ae.sat.servers.master.service.preprocess.PreProcessService;
 import com.ae.sat.servers.master.service.rabbitmq.RabbitMQService;
@@ -15,6 +12,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.SpringApplicationRunListener;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -35,44 +33,13 @@ import java.util.concurrent.Executor;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 
-@ComponentScan({"com.ae.sat.servers.master.controller",
-				"com.ae.sat.servers.master.service.job"})
+@EnableAutoConfiguration
 @EnableScheduling
 @EnableAsync
 @SpringBootApplication
 public class App {
 
 	private final Logger log = LoggerFactory.getLogger(getClass());
-
-	@Profile("local")
-	@Bean
-	public DockerClientServiceFactory localDockerService() {
-		return new LocalDockerClientServiceFactory();
-	}
-
-	@Profile({"localvm", "oceanvm" })
-	@Bean
-	public DockerClientServiceFactory machineDockerService() {
-		return new MachineDockerClientServiceFactory();
-	}
-
-	@Profile("localvm")
-	@Bean
-	public MachineService localSwarmService() {
-		return new LocalMachineService();
-	}
-
-	@Profile("oceanvm")
-	@Bean
-	public MachineService oceanSwarmService() {
-		return new DigitalOceanService();
-	}
-
-	@Profile("local")
-	@Bean
-	public RabbitMQService localConnectionFactory() {
-		return new LocalRabbitMqService();
-	}
 
 	@Profile({"localvm", "oceanvm"})
 	@Bean

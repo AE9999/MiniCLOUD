@@ -1,6 +1,6 @@
-package com.ae.docker.machine.oceanvm;
+package com.ae.sat.servers.master.service.docker.machine.oceanvm;
 
-import com.ae.docker.machine.DockerMachineService;
+import com.ae.sat.servers.master.service.docker.machine.DockerMachineService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
