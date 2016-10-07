@@ -1,0 +1,34 @@
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-form/iron-form.html">
+<link rel="import" href="../bower_components/paper-input/paper-input.html">
+<link rel="import" href="../bower_components/paper-checkbox/paper-checkbox.html">
+<link rel="import" href="../bower_components/paper-button/paper-button.html">
+<link rel="import" href="../bower_components/file-upload/file-upload.html">
+<link rel="import" href="shared-styles.html">
+
+<dom-module id="my-cnfs">
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
+
+                padding: 10px;
+            }
+        </style>
+
+        <div class="card">
+            <h1>CNF Upload</h1>
+            <file-upload target="/cnf"
+                         raised="true">
+                Select CNF:
+            </file-upload>
+            <h1>CNF List</h1>
+        </div>
+    </template>
+
+    <script>
+        Polymer({
+            is: 'my-cnfs'
+        });
+    </script>
+</dom-module>

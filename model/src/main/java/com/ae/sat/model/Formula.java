@@ -4,11 +4,15 @@ import java.io.*;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
+import org.springframework.data.annotation.Id;
 
 /**
  * Created by ae on 21-5-16.
  */
 public class Formula implements Serializable {
+
+    @Id
+    private String name;
 
     private List<Clause> clauses;
 
@@ -83,7 +87,12 @@ public class Formula implements Serializable {
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         String line;
         List<Clause> clauses = new ArrayList<>();
+        boolean started= false;
         while ((line = reader.readLine()) != null) {
+            if (line.startsWith("p cnf ")) {
+                started = true;
+            }
+            if (!started) { continue; }
             if (line.startsWith("c") || line.startsWith("p")) { continue; }
             String[] data = line.split("\\s+");
             if (data.length == 0) {

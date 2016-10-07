@@ -24,6 +24,7 @@
 
   <modules>
     <module>server</module>
+    <module>server-client</module>
     <module>model</module>
     <module>worker</module>
   </modules>

@@ -22,16 +22,18 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.task.TaskExecutor;
+import org.springframework.http.HttpRequest;
+import org.springframework.http.client.ClientHttpRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-@Controller
-public class FileUploadController {
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+@RestController
+public class JobController {
 
     private final Logger log = LoggerFactory.getLogger(getClass());
 
@@ -50,47 +52,26 @@ public class FileUploadController {
     @Autowired
     private Executor taskExecutor;
 
-    @RequestMapping(method = RequestMethod.GET, value = "/")
-    public String provideUploadInfo(Model model) {
-        /*File rootFolder = new File(App.ROOT);
-        List<String> fileNames = Arrays.stream(rootFolder.listFiles())
-                .map(f -> f.getName())
-                .collect(Collectors.toList());
 
-        model.addAttribute("files",
-                Arrays.stream(rootFolder.listFiles())
-                        .sorted(Comparator.comparingLong(f -> -1 * f.lastModified()))
-                        .map(f -> f.getName())
-                        .collect(Collectors.toList())
-        ); */
-
-        model.addAttribute("files", new ArrayList<File>());
-
-        return "uploadForm";
-    }
-
-    @RequestMapping(method = RequestMethod.POST, value = "/cnf")
-    public String handleFileUpload(@RequestParam("numberOfSolvers") final  int numberOfSolvers,
-                                   @RequestParam("file") final  MultipartFile file,
-                                   @RequestParam("preprocess") final boolean preprocessing,
-                                   RedirectAttributes redirectAttributes) {
-
+        int x = 0;
+        /*int numberOfSolvers = 2; // @RequestParam("numberOfSolvers") final  int numberOfSolvers,
+        boolean preprocessing = true; // @RequestParam("preprocess") final boolean preprocessing
         if (numberOfSolvers <= 0 || numberOfSolvers > maxNumberOfSolvers) {
             String m = String.format("Amount of solvers must be between 0 and %s ..",
                                      maxNumberOfSolvers);
-            redirectAttributes.addFlashAttribute("message", m);
+            //redirectAttributes.addFlashAttribute("message", m);
             return "redirect:/";
         }
 
         if (!file.isEmpty()) {
             try {
-                final Formula f = Formula.fromCNFStream(file.getInputStream());
+
                 String m = "Succesfully uploaded a formula %s with: %s vars & %s clauses !!";
-                redirectAttributes.addFlashAttribute("message",
-                                                     String.format(m,
-                                                     "uploaded file",
-                                                     f.nVars(),
-                                                     f.getClauses().size()));
+//                redirectAttributes.addFlashAttribute("message",
+//                                                     String.format(m,
+//                                                     "uploaded file",
+//                                                     f.nVars(),
+//                                                     f.getClauses().size()));
 
                 Runnable runnable = () -> {
                     try {
@@ -119,17 +100,17 @@ public class FileUploadController {
 
             }
             catch (Exception e) {
-                log.error("Failed to create job", e);
-                redirectAttributes.addFlashAttribute("message",
-                        "You failed to upload .. => " + e.getMessage());
+//                log.error("Failed to create job", e);
+//                redirectAttributes.addFlashAttribute("message",
+//                        "You failed to upload .. => " + e.getMessage());
             }
         }
         else {
-            redirectAttributes.addFlashAttribute("message",
-                    "You failed to upload because the file was empty");
+//            redirectAttributes.addFlashAttribute("message",
+//                    "You failed to upload because the file was empty");
         }
 
-        return "redirect:/";
+        return "redirect:/";*/
     }
 
 }

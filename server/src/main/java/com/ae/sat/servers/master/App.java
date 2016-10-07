@@ -1,12 +1,8 @@
 package com.ae.sat.servers.master;
 
-import com.ae.sat.servers.master.service.docker.DockerClientServiceFactory;
-import com.ae.sat.servers.master.service.docker.local.LocalDockerClientServiceFactory;
-import com.ae.sat.servers.master.service.docker.machine.MachineDockerClientServiceFactory;
 import com.ae.sat.servers.master.service.preprocess.MinisatPreprocessService;
 import com.ae.sat.servers.master.service.preprocess.PreProcessService;
 import com.ae.sat.servers.master.service.rabbitmq.RabbitMQService;
-import com.ae.sat.servers.master.service.rabbitmq.local.LocalRabbitMqService;
 import com.ae.sat.servers.master.service.rabbitmq.machine.DockerMachineRabbitMqService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -14,24 +10,21 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.SpringApplicationRunListener;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.embedded.MultipartConfigFactory;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Profile;
 import org.springframework.core.env.ConfigurableEnvironment;
-import org.springframework.core.task.SimpleAsyncTaskExecutor;
-import org.springframework.core.task.TaskExecutor;
 import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.scheduling.annotation.EnableScheduling;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
+import org.springframework.web.multipart.commons.CommonsMultipartResolver;
 
 import java.awt.*;
 import java.io.IOException;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.util.concurrent.Executor;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
 
 @EnableAutoConfiguration
 @EnableScheduling
@@ -50,6 +43,13 @@ public class App {
 	@Bean
 	public PreProcessService preProcessService() {
 		return new MinisatPreprocessService();
+	}
+
+	@Bean
+	public CommonsMultipartResolver multipartResolver() {
+		CommonsMultipartResolver commonsMultipartResolver = new CommonsMultipartResolver();
+//		commonsMultipartResolver.setMaxUploadSize();
+		return commonsMultipartResolver;
 	}
 
 	//@Bean
