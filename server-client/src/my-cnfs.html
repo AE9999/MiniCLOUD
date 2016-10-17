@@ -5,6 +5,7 @@
 <link rel="import" href="../bower_components/paper-button/paper-button.html">
 <link rel="import" href="../bower_components/file-upload/file-upload.html">
 <link rel="import" href="shared-styles.html">
+<link rel="import" href="./cnfs.html">
 
 <dom-module id="my-cnfs">
     <template>
@@ -18,17 +19,24 @@
 
         <div class="card">
             <h1>CNF Upload</h1>
-            <file-upload target="/cnf"
+            <file-upload target="/api/cnf"
+                         on-success="_reload"
                          raised="true">
                 Select CNF:
             </file-upload>
-            <h1>CNF List</h1>
+
+            <cnfs id="cnfs"></cnfs>
         </div>
+
     </template>
 
     <script>
         Polymer({
-            is: 'my-cnfs'
+            is: 'my-cnfs',
+            properties: {},
+            _reload : function () {
+                this.$.cnfs._reload();
+            }
         });
     </script>
 </dom-module>

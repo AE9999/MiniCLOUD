@@ -43,7 +43,7 @@
                             <outputDirectory>${project.build.directory}/classes/static</outputDirectory>
                             <resources>
                                 <resource>
-                                    <directory>${project.basedir}/build/bundled/</directory>
+                                    <directory>${project.basedir}/build/unbundled/</directory>
                                 </resource>
                             </resources>
                         </configuration>

@@ -7,6 +7,8 @@ package com.ae.sat.servers.master.controller;
 import java.io.File;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.UUID;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executor;
 import java.util.concurrent.ScheduledExecutorService;
@@ -17,6 +19,7 @@ import com.ae.sat.servers.master.service.job.Job;
 import com.ae.sat.servers.master.service.job.PlannedJobService;
 import com.ae.sat.servers.master.service.job.JobService;
 import com.ae.sat.servers.master.service.preprocess.PreProcessService;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -52,8 +55,20 @@ public class JobController {
     @Autowired
     private Executor taskExecutor;
 
+    @RequestMapping(method = RequestMethod.PUT, value = "/api/job")
+    public void upload()
+            throws IOException {
 
-        int x = 0;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/api/jobs")
+    public List<Job> cnfs()
+            throws IOException {
+        return new ArrayList<>();
+    }
+
+
+//        int x = 0;
         /*int numberOfSolvers = 2; // @RequestParam("numberOfSolvers") final  int numberOfSolvers,
         boolean preprocessing = true; // @RequestParam("preprocess") final boolean preprocessing
         if (numberOfSolvers <= 0 || numberOfSolvers > maxNumberOfSolvers) {
@@ -111,6 +126,6 @@ public class JobController {
         }
 
         return "redirect:/";*/
-    }
+//    }
 
 }

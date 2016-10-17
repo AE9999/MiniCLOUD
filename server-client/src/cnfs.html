@@ -1,0 +1,39 @@
+<link rel="import" href="shared-styles.html">
+<link rel="import" href="../bower_components/polymer/polymer.html">
+<link rel="import" href="../bower_components/iron-ajax/iron-ajax.html">
+
+<dom-module id="cnfs">
+    <template>
+        <style include="shared-styles">
+            :host {
+                display: block;
+
+                padding: 10px;
+            }
+        </style>
+        <iron-ajax id="myAjax"
+                   auto
+                   url="/api/cnfs"
+                   handle-as="json"
+                   last-response="{{cnfs}}">
+        </iron-ajax>
+
+        <h1>CNF List</h1>
+        <template is="dom-repeat" items="{{cnfs}}">
+        <ul>
+            {{item}}
+        </ul>
+        </template>
+    </template>
+    <script>
+        Polymer({
+            is: 'cnfs',
+            properties: {
+                cnfs: { type: Array }
+            },
+            _reload : function () {
+                this.$.myAjax.generateRequest();
+            }
+        });
+    </script>
+</dom-module>

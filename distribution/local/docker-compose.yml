@@ -1,9 +1,11 @@
 version: '2'
 services:
+    mongo:
+        image: mongo:3.0.12
+        network_mode: "host"
     rabbit:
         image: rabbitmq:3.5.1-management
-        ports:
-            - "5672:5672"
+        network_mode: "host"
     sat-master:
         image: aereg/minicloud-server
         volumes:

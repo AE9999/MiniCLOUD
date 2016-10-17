@@ -4,14 +4,15 @@ import java.io.*;
 import java.util.*;
 import java.util.function.Function;
 import java.util.stream.Collectors;
-import org.springframework.data.annotation.Id;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * Created by ae on 21-5-16.
  */
 public class Formula implements Serializable {
 
-    @Id
     private String name;
 
     private List<Clause> clauses;
@@ -32,6 +33,14 @@ public class Formula implements Serializable {
 
     public List<Clause> getClauses() {
         return clauses;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 
     public Map<Integer, Long> amountOfOccurences() {
@@ -84,6 +93,9 @@ public class Formula implements Serializable {
     }
 
     public static Formula fromCNFStream(InputStream is) throws IOException {
+
+        Logger log = LoggerFactory.getLogger(Formula.class);
+
         BufferedReader reader = new BufferedReader(new InputStreamReader(is));
         String line;
         List<Clause> clauses = new ArrayList<>();
@@ -108,8 +120,7 @@ public class Formula implements Serializable {
                     lits.add(Integer.parseInt(data[i]));
                 } catch (NumberFormatException e) {
                     // yeay fuck bad java stuff ..
-                    // TODO ADD OUTPUT ..
-                    System.err.println("Fix this stuff %s ..");
+                    log.error("Fix this stuff %s ..");
                 }
             }
             clauses.add(toClause(lits));

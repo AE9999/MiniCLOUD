@@ -11,9 +11,9 @@ import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = App.class)
 @ActiveProfiles("localDocker")
-public class MasterTests {
+public class MasterTestIT {
 
-	//@Ignore
+	@Ignore
 	@Test
 	public void contextLoads() {
 	}
