@@ -2,10 +2,9 @@
   "entrypoint": "index.html",
   "shell": "src/my-app.html",
   "fragments": [
-    "src/my-cnf-upload.html",
-    "src/my-view1.html",
-    "src/my-view2.html",
-    "src/my-view3.html",
+    "src/cnfs",
+    "src/my-cnfs.html",
+    "src/my-jobs.html",
     "src/my-view404.html"
   ],
   "sourceGlobs": [
